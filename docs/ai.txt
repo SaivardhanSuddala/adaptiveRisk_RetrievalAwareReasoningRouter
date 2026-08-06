@@ -1,0 +1,5 @@
+Retrieval Augmented Generation combines information retrieval with large language models.
+
+Embeddings convert text into vectors.
+
+Transformers use self attention.
