@@ -1,7 +1,11 @@
+import sys
+
 from vector_store import clear_collection, document_count
 from loader import load_and_index_documents
-from retrieval import retrieve_documents
+from router import answer_query
 
+
+sys.stdout.reconfigure(encoding="utf-8")
 
 clear_collection()
 
@@ -10,11 +14,10 @@ indexed = load_and_index_documents("docs")
 print(f"Indexed {indexed} chunks")
 print(f"Documents in DB: {document_count()}")
 
-results = retrieve_documents("What is Retrieval Augmented Generation?")
+result = answer_query("What is Retrieval Augmented Generation?")
 
-print("\nRetrieved:\n")
+print("\nRoute:\n")
+print(result["decision"])
 
-for doc in results:
-    
-    print(doc)
-    print("-" * 50)
+print("\nAnswer:\n")
+print(result["generation"]["answer"])

@@ -10,7 +10,7 @@ def add_documents(
     metadatas: List[dict],
 ) -> None:
 
-    collection.add(
+    collection.upsert(
         ids=ids,
         documents=documents,
         embeddings=embeddings,

@@ -1,6 +1,7 @@
 from pathlib import Path
 
 from chunking import chunk_text
+from configs import CHUNK_OVERLAP, CHUNK_SIZE
 from embeddings import embed_documents
 from vector_store import add_documents
 
@@ -12,7 +13,6 @@ SUPPORTED_EXTENSIONS = {
 
 
 def load_and_index_documents(directory: str) -> int:
-
     root = Path(directory)
 
     if not root.exists():
@@ -36,12 +36,16 @@ def load_and_index_documents(directory: str) -> int:
         if not text:
             continue
 
-        chunks = chunk_text(text)
+        chunks = chunk_text(
+            text,
+            chunk_size=CHUNK_SIZE,
+            overlap=CHUNK_OVERLAP,
+        )
 
         embeddings = embed_documents(chunks)
 
         ids = [
-            f"{file.stem}_{i}"
+            f"{file.relative_to(root).as_posix()}::{i}"
             for i in range(len(chunks))
         ]
 

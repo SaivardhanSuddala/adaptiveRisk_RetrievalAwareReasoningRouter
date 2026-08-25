@@ -1,9 +1,11 @@
 from typing import List
 
-from configs import embedding_model
+from configs import get_embedding_model
 
 
 def embed_documents(documents: List[str]) -> List[List[float]]:
+    embedding_model = get_embedding_model()
+
     return embedding_model.encode(
         documents,
         convert_to_numpy=True,
@@ -12,6 +14,8 @@ def embed_documents(documents: List[str]) -> List[List[float]]:
 
 
 def embed_query(query: str) -> List[float]:
+    embedding_model = get_embedding_model()
+
     return embedding_model.encode(
         query,
         convert_to_numpy=True,
