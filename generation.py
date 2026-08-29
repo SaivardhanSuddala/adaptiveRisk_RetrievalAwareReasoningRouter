@@ -4,7 +4,7 @@ import re
 
 from groq import BadRequestError
 
-from configs import MODEL_NAME, REACT_MAX_STEPS, SELF_CONSISTENCY_SAMPLES, get_groq_client
+from configs import MODEL_NAME, REACT_MAX_STEPS, SELF_CONSISTENCY_SAMPLES, get_client_for_model
 from retrieval import retrieve_documents
 
 
@@ -271,11 +271,11 @@ STRATEGY_FUNCTIONS = {
 
 
 def generate_answer(query: str, contexts: list[str] | None = None, strategy: str = "cot", model: str | None = None) -> dict:
-    client = get_groq_client()
     contexts = contexts or []
     model = model or MODEL_NAME
+    client, native_model = get_client_for_model(model)
     func = STRATEGY_FUNCTIONS.get(strategy, generate_cot)
-    result = func(client, model, query, contexts)
+    result = func(client, native_model, query, contexts)
 
     input_tokens = result.get("input_tokens", 0)
     output_tokens = result.get("output_tokens", 0)

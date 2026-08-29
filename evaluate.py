@@ -73,6 +73,7 @@ def run_answer_subset(
                     "difficulty": row["difficulty"],
                     "model": model,
                     "strategy": strategy_override or "",
+                    "generation_status": "error",
                     "hallucination_risk": "",
                     "retrieval_quality": "",
                     "latency_ms": round((time.perf_counter() - start) * 1000, 1),
@@ -80,7 +81,7 @@ def run_answer_subset(
                     "output_tokens": "",
                     "total_tokens": "",
                     "answer_stability": "",
-                    "is_correct": False,
+                    "is_correct": None,
                     "groundedness_rate": "",
                     "flagged_claims": "",
                     "answer": f"ERROR: {error}",
@@ -112,6 +113,7 @@ def run_answer_subset(
                 "flagged_claims": grounding["flagged_count"],
                 "answer": generation["answer"],
                 "ground_truth_answer": row["ground_truth_answer"],
+                "generation_status": "success",
             })
 
     return outputs
